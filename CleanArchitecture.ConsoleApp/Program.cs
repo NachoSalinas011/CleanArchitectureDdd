@@ -8,18 +8,14 @@ StreamerDbContext _streamerDbContext = new();
 //await AddNewStreamerWithVideo();
 //await AddNewDirectorWithVideo();
 //await AddNewStreamerWithVideoId();
-//Console.WriteLine("Registros cargados");
+
 
 await MultipleEntitiesQuery();
 
 
 async Task MultipleEntitiesQuery()
 {
-    var videoWithActores = await _streamerDbContext.Videos.Include(q => q.Actores).FirstOrDefaultAsync(q => q.Id == 4);
 
-
-    var actores = await _streamerDbContext.Actores!.ToListAsync();
-    Console.WriteLine(actores);
 }
 
 
@@ -66,7 +62,7 @@ async Task AddNewStreamerWithVideoId()
     var batmanForever = new Video
     {
         Nombre = "batman forever",
-        StreamerId = 5
+        StreamerId = 1
     };
 
     await _streamerDbContext.AddAsync(batmanForever);
