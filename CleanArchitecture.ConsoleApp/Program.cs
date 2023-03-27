@@ -10,12 +10,25 @@ StreamerDbContext _streamerDbContext = new();
 //await AddNewStreamerWithVideoId();
 
 
-await MultipleEntitiesQuery();
+//await MultipleEntitiesQuery();
+
+#warning Clase 20
+Console.ReadKey();
 
 
 async Task MultipleEntitiesQuery()
 {
+    var videoWithDirector = await _streamerDbContext.Videos.Where(x => x.Director != null).Include(x => x.Director) //Consulta con condicional
+        .Select(x => new
+        {
+            Director_Nombre_Completo = $"{x.Director.Nombre} {x.Director.Apellido}",
+            Movie = x.Nombre
+        }).ToListAsync();
 
+    foreach (var item in videoWithDirector)
+    {
+        Console.WriteLine($"{item.Movie} - {item.Director_Nombre_Completo}");
+    }
 }
 
 
