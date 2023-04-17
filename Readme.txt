@@ -1,1 +1,1 @@
-Clase 32
+Clase 35 min 7:44

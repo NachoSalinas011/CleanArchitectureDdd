@@ -1,6 +1,5 @@
 ﻿using CleanArchitecture.Domain.Common;
 using System.Linq.Expressions;
-using System.Security.Cryptography.X509Certificates;
 
 namespace CleanArchitecture.Application.Contracts.Persistence
 {
