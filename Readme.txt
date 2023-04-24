@@ -1,1 +1,1 @@
-Clase 37 min 8:42
+Clase 40 min 5:56
