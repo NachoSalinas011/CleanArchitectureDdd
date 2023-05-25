@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using CleanArchitecture.Application.Contracts.Persistence;
+using CleanArchitecture.Application.Exceptions;
+using CleanArchitecture.Domain;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -18,9 +20,20 @@ namespace CleanArchitecture.Application.Features.Streamers.Commands.UpdateStream
             _logger = logger;
         }
 
-        public Task<Unit> Handle(UpdateStreamerCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UpdateStreamerCommand request, CancellationToken cancellationToken)
         {
-            var streamer = _streamerRepository.GetByIdAsync(request.Id);
+            var streamerToUpdate = await _streamerRepository.GetByIdAsync(request.Id);
+
+            if (streamerToUpdate is null)
+            {
+                _logger.LogError($"No se encontró el streamer id {request.Id}");
+                throw new NotFoundException(nameof(Streamer), request.Id);
+            }
+
+            _mapper.Map(request, streamerToUpdate, typeof(UpdateStreamerCommand), typeof(Streamer));
+            await _streamerRepository.UpdateAsync(streamerToUpdate);
+            _logger.LogInformation($"Streamer {request.Id} actualizado correctamente");
+            return Unit.Value;
         }
     }
 }
